@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **The README no longer undersells diff adoption as all-or-nothing.** "Adopt hunks all-or-nothing" read as if the whole diff went across in one lump, which is the opposite of what the code does: you tick individual hunks, in any file and across files, and only that selection is adopted. The all-or-nothing part is the *apply* — the hunks you picked are combined into a single `git apply` gated by a target snapshot, so the target takes your whole selection or stays untouched. Wording only; adoption behaviour is unchanged.
+
+- **The built-in browser is described as integrated rather than as something only wmux has.** Driving a real browser from an agent stopped being a differentiator once the vendors shipped their own, so the browser row moved to the end of the "Why wmux?" table and now states what it is — Chrome over CDP in the same window, reachable through the same MCP surface — instead of leading with it. The feature is unchanged and still documented in full.
+
 - **The protocol docs now state that the daemon control connection is multiplexed.** Replies and pushed events share one stream, with no subscription step, and are told apart only by whether they carry the `id` of the request you sent. Clients that wrote a request and read exactly one line back therefore worked until an event arrived at the wrong moment, then reported a failure with an empty error message and dropped the real reply — a failure mode that can invent failures but never successes, which sent two teams debugging in the wrong direction. `docs/PROTOCOL.md` §2.9 now spells out the correlation rule. No behaviour changes; correctly-written clients were never affected. (#659)
 
 ### Fixed
